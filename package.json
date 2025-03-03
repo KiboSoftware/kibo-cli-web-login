@@ -1,6 +1,6 @@
 {
   "name": "@kibocommerce/cli-web-login",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "kibo cli web login",
   "main": "index.js",
   "scripts": {
