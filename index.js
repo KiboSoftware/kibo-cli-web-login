@@ -17,6 +17,7 @@ class Authenticator {
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }
+   
 
     decryptLargePayload(privateKeyPem, encryptedPayload) {
         const payload = JSON.parse(encryptedPayload);
@@ -53,9 +54,17 @@ class Authenticator {
                 const openModule = await import('open');
                 open = openModule.default;
             } catch (e) {
-                console.log("open package not found, please install it using npm install open");
-                reject(e);
-                return;
+                console.log("open package not found or incompatible, falling back to child_process");
+                const { exec } = require('child_process');
+                open = (url) => {
+                    const startCommand = process.platform === 'win32' ? 'start' : process.platform === 'darwin' ? 'open' : 'xdg-open';
+                    return new Promise((resolve, reject) => {
+                        exec(`${startCommand} "${url}"`, (error) => {
+                            if (error) reject(error);
+                            else resolve();
+                        });
+                    });
+                };
             }
 
             const port = Math.floor(Math.random() * (65535 - 1024) + 1024);
