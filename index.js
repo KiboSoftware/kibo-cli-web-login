@@ -156,6 +156,7 @@ class Authenticator {
                 const url = `${loginUrl}?PostbackUrl=http://localhost:${port}?cliState=${encodedCliState}&scopeType=developer`;
                 console.log('Opening browser...');
                 open(url).catch(reject);
+                console.log(`If the browser did not open, you can manually navigate to: ${url}`);
             });
 
             setTimeout(() => {
